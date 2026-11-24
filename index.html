@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Por onde começo? | Pop Decants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZP6FZVXQPC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-ZP6FZVXQPC',{page_title:'Quiz Por onde começo'});</script>
+<style>
+:root{--v:#6A3DE8;--g:#15181C;--bg:#F4F5F1;--l:#DADCD4}
+*{box-sizing:border-box;margin:0}
+body{font-family:'DM Sans',sans-serif;color:var(--g);background:var(--bg);min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:28px 20px 40px}
+.bar{height:6px;background:var(--l);border-radius:6px;overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;width:0;background:var(--v);transition:width .3s}
+.step{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px}
+h1,h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.05}
+h1{font-size:clamp(36px,8vw,56px);margin-bottom:16px}
+h2{font-size:clamp(28px,6vw,40px);margin-bottom:22px}
+p.lead{font-size:18px;line-height:1.5;margin-bottom:26px}
+.opts{display:grid;gap:12px}
+button{font:inherit;cursor:pointer}
+.opt{text-align:left;padding:16px 18px;background:#fff;border:2px solid var(--g);border-radius:14px;font-size:17px;font-weight:500;transition:.15s}
+.opt:hover,.opt:focus-visible{background:var(--v);color:#fff;border-color:var(--v);outline:none}
+.cta{display:inline-block;background:var(--v);color:#fff;border:0;border-radius:999px;padding:15px 28px;font-weight:700;font-size:17px;text-decoration:none}
+.back{background:none;border:0;margin-top:20px;font-size:14px;text-decoration:underline;color:var(--g)}
+.card{background:#fff;border:2px solid var(--g);border-radius:18px;padding:20px;margin-bottom:16px}
+.card .n{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--v)}
+.card h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:26px;letter-spacing:-.02em;margin:4px 0 2px}
+.card .m{font-size:13px;opacity:.7;margin-bottom:10px}
+.card p{line-height:1.5;margin-bottom:14px}
+.card .cta{padding:11px 22px;font-size:15px}
+.note{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em;margin-top:22px;line-height:1.6}
+.wa{display:block;margin-top:14px;font-size:15px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+const SITE="https://popdecants.lojavirtualnuvem.com.br";
+const P=[
+{n:"Belgravia",b:"Maison Asrar",u:"/produtos/belgravia-maison-asrar/",pr:52.9,d:"Bergamota, cassis e almíscar: cítrico, com fundo macio.",sit:["dia","calor"],sen:["fresco","energia"],cl:["calor"],pe:["discreto"]},
+{n:"L'Homme Idéal Cologne Forte",b:"Guerlain",u:"/produtos/lhomme-ideal-cologne-forte/",pr:133.9,d:"Limão claro, amêndoa macia e vetiver no fim.",sit:["dia","noite"],sen:["energia","fresco"],cl:["calor","todo"],pe:["discreto","perto"]},
+{n:"Regent",b:"Maison Asrar",u:"/produtos/regent-maison-asrar/",pr:47.9,d:"Toranja viva, gengibre e fundo cremoso de sândalo.",sit:["dia","calor"],sen:["energia"],cl:["calor"],pe:["perto"]},
+{n:"Amber Oud Aqua Dubai",b:"Al Haramain",u:"/produtos/amber-oud-aqua-dubai/",pr:41.9,d:"Bergamota e mandarina claras, com almíscar de pele limpa.",sit:["calor"],sen:["fresco"],cl:["calor"],pe:["discreto"]},
+{n:"Shiyaaka For Men",b:"Khadlaj",u:"/produtos/shiyaaka-for-men-khadlaj/",pr:30.9,d:"Alecrim e pimenta, neroli suave e madeira no fundo.",sit:["dia"],sen:["arlivre","energia"],cl:["todo"],pe:["perto"]},
+{n:"Terra",b:"Rayhaan",u:"/produtos/terra-rayhaan/",pr:33.9,d:"Elemi e incenso, com baunilha macia no fundo.",sit:["noite"],sen:["misterioso"],cl:["frio"],pe:["ambiente"]},
+{n:"Historic Sahara",b:"Afnan",u:"/produtos/historic-sahara-afnan/",pr:37.9,d:"Baunilha quente com cardamomo e canela.",sit:["noite"],sen:["doce"],cl:["frio"],pe:["ambiente"]},
+{n:"Vulcan Feu",b:"French Avenue",u:"/produtos/vulcan-feu-da-french-avenue-pkv2e/",pr:39.9,d:"Manga suculenta, limão e tonka cremosa.",sit:["noite","notado"],sen:["doce","energia"],cl:["todo"],pe:["ambiente"]},
+{n:"Spectre Ghost",b:"French Avenue",u:"/produtos/spectre-ghost-french-avenue/",pr:41.9,d:"Limão que clareia, baunilha que abraça e cedro para firmar.",sit:["dia","noite"],sen:["doce","fresco"],cl:["todo"],pe:["perto"]},
+{n:"Cedrus Blanc",b:"Rayhaan",u:"/produtos/cedrus-blanc-rayhaan/",pr:43.9,d:"Aldeídos e laranja, com cedro seco e limpo, cheiro de roupa limpa.",sit:["dia","calor"],sen:["fresco"],cl:["calor"],pe:["discreto"]},
+{n:"MYSLF EDP",b:"Yves Saint Laurent",u:"/produtos/myslf-edp-yves-saint-laurent/",pr:97.9,d:"Flor de laranjeira, bergamota e fundo limpo de ambroxan.",sit:["dia","noite"],sen:["arlivre","fresco"],cl:["todo"],pe:["perto"]},
+{n:"Sunrise Pour Homme",b:"Moncler",u:"/produtos/sunrise-pour-homme-moncler/",pr:152.9,d:"Pimenta-rosa, suede macio e patchouli terroso.",sit:["notado","noite"],sen:["misterioso","arlivre"],cl:["frio","todo"],pe:["ambiente"]}
+];
+const Q=[
+{k:"nivel",t:"Quanto você conhece de perfume?",o:[["Estou começando","iniciante"],["Sei o que gosto, mas não sei os nomes","gosto"],["Já tenho alguns perfumes","tenho"],["Conheço notas e famílias","expert"]]},
+{k:"sit",t:"Para quando você quer esse perfume?",o:[["Dia a dia e trabalho","dia"],["Encontro e noite","noite"],["Calor, academia, leveza","calor"],["Ocasião em que quero ser notado","notado"]]},
+{k:"sen",t:"Que sensação você quer passar?",o:[["Limpo e fresco","fresco"],["Energia, vivo","energia"],["Aconchego, doce","doce"],["Misterioso, profundo","misterioso"],["Ar livre, ervas e madeira","arlivre"]]},
+{k:"cl",t:"Quando você mais vai usar?",o:[["No calor","calor"],["No frio","frio"],["O ano todo","todo"]]},
+{k:"pe",t:"Como você quer que ele se comporte?",o:[["Discreto, perto da pele","discreto"],["Que perceba quem chega perto","perto"],["Que se faça notar no ambiente","ambiente"]]},
+{k:"obj",t:"O que você quer agora?",o:[["Descobrir o meu primeiro","primeiro"],["Achar um parecido com um que já uso","parecido"],["Presentear alguém","presente"],["Ampliar minha coleção","colecao"]]}
+];
+const R={sit:{dia:"para o dia a dia",noite:"para a noite",calor:"para o calor e a leveza",notado:"para ser notado"},
+sen:{fresco:"uma sensação limpa e fresca",energia:"energia",doce:"aconchego e doce",misterioso:"um ar misterioso",arlivre:"cara de ar livre"},
+cl:{calor:"vai bem no calor",frio:"combina com o frio",todo:"funciona o ano todo"},
+pe:{discreto:"fica discreto, perto da pele",perto:"é percebido por quem chega perto",ambiente:"se faz notar no ambiente"}};
+const A={};let i=-1;const app=document.getElementById("app");
+const ev=(n,p)=>{try{gtag('event',n,p||{})}catch(e){}};
+const fmt=v=>"R$ "+v.toFixed(2).replace(".",",");
+function bar(){return `<div class="bar"><i style="width:${Math.max(0,i)/Q.length*100}%"></i></div>`}
+function start(){i=-1;app.innerHTML=`<div class="step">Pop Decants</div><h1>Por onde começo?</h1><p class="lead">Seis perguntas rápidas e a gente indica 3 decants de 5 ml para você testar na pele. Sem certo nem errado.</p><button class="cta" id="go">Começar</button>`;
+document.getElementById("go").onclick=()=>{ev('quiz_start');i=0;show()}}
+function show(){const q=Q[i];
+app.innerHTML=`${bar()}<div class="step">Pergunta ${i+1} de ${Q.length}</div><h2>${q.t}</h2><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${o[0]}</button>`).join("")}</div>${i>0?'<button class="back" id="bk">Voltar</button>':''}`;
+app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const v=q.o[+b.dataset.j][1];A[q.k]=v;ev('quiz_answer',{pergunta:q.k,resposta:v});i++;i<Q.length?show():result()});
+const bk=document.getElementById("bk");if(bk)bk.onclick=()=>{i--;show()}}
+function score(p){let s=0,why=[];
+if(p.sit.includes(A.sit)){s+=2;why.push(R.sit[A.sit])}
+if(p.sen.includes(A.sen)){s+=3;why.push(R.sen[A.sen])}
+if(p.cl.includes(A.cl)){s+=2;why.push(R.cl[A.cl])}else if(p.cl.includes("todo")){s+=1}
+if(p.pe.includes(A.pe)){s+=2;why.push(R.pe[A.pe])}
+return{p,s,why}}
+function result(){
+let r=P.map(score);
+r.sort((a,b)=>b.s-a.s||(A.nivel==="iniciante"?a.p.pr-b.p.pr:0));
+r=r.slice(0,3);
+const intro={iniciante:"Para quem está começando, escolhemos os que são fáceis de gostar. Família olfativa é o “jeito” do cheiro (cítrico, doce, amadeirado…), e o decant deixa você testar sem se prender a um frasco inteiro.",
+gosto:"Você sabe o que gosta, só falta o nome. Estes três combinam com o que você respondeu.",
+tenho:"Para quem já tem perfumes, estes três podem somar à sua coleção sem repetir o que você já conhece.",
+expert:"Você conhece notas e famílias, então olhe as notas de cada um e compare com o seu repertório."}[A.nivel];
+const fim={primeiro:"Comece por um só e teste em casa antes de pensar em mais.",parecido:"Se você já tem um favorito, chame a gente e conte qual é: ajudamos a achar um parecido.",presente:"Para presente, o decant de 5 ml é um jeito leve de acertar sem apostar em um frasco inteiro.",colecao:"A partir de 6 decants o desconto é de 5%, e de 12, 10%."}[A.obj];
+ev('quiz_complete',{nivel:A.nivel,sit:A.sit,sen:A.sen,cl:A.cl,pe:A.pe,obj:A.obj,top1:r[0].p.n});
+app.innerHTML=`<div class="bar"><i style="width:100%"></i></div><div class="step">Resultado</div><h1>Seus 3 pops</h1><p class="lead">${intro}</p>
+${r.map((x,k)=>`<div class="card"><div class="n">Pop ${k+1}</div><h3>${x.p.n}</h3><div class="m">${x.p.b} · 5 ml · ${fmt(x.p.pr)}</div><p>${x.why.length?"Combina com o que você respondeu: "+x.why.join(", ")+".":"Para variar o que você já escolheu."} ${x.p.d}</p><a class="cta" target="_top" href="${SITE}${x.p.u}" data-n="${x.p.n}">Ver na loja</a></div>`).join("")}
+<p class="lead" style="margin-top:20px">${fim}</p>
+<button class="back" id="re">Refazer o quiz</button>
+<div class="note">SENSAÇÃO E DURAÇÃO VARIAM DE PELE PARA PELE. CADA DECANT TEM 5 ML.<br>Um pop de cada vez.</div>`;
+app.querySelectorAll("a.cta").forEach(a=>a.onclick=()=>ev('quiz_click_produto',{produto:a.dataset.n}));
+document.getElementById("re").onclick=start;
+parent.postMessage&&0}
+start();
+</script>
+</body>
+</html>
