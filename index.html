@@ -71,7 +71,7 @@ const A={};let i=-1;const app=document.getElementById("app");
 const ev=(n,p)=>{try{gtag('event',n,p||{})}catch(e){}};
 const fmt=v=>"R$ "+v.toFixed(2).replace(".",",");
 function bar(){return `<div class="bar"><i style="width:${Math.max(0,i)/Q.length*100}%"></i></div>`}
-function start(){i=-1;app.innerHTML=`<div class="step">Pop Decants</div><h1>Por onde começo?</h1><p class="lead">Seis perguntas rápidas e a gente indica 3 decants de 5 ml para você testar na pele. Sem certo nem errado.</p><button class="cta" id="go">Começar</button>`;
+function start(){i=-1;app.innerHTML=`<div class="step"><a href="${SITE}" target="_top" style="color:inherit;text-decoration:none">← Pop Decants</a></div><h1>Por onde começo?</h1><p class="lead">Seis perguntas rápidas e a gente indica 3 decants de 5 ml para você testar na pele. Sem certo nem errado.</p><button class="cta" id="go">Começar</button>`;
 document.getElementById("go").onclick=()=>{ev('quiz_start');i=0;show()}}
 function show(){const q=Q[i];
 app.innerHTML=`${bar()}<div class="step">Pergunta ${i+1} de ${Q.length}</div><h2>${q.t}</h2><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-j="${j}">${o[0]}</button>`).join("")}</div>${i>0?'<button class="back" id="bk">Voltar</button>':''}`;
@@ -96,7 +96,7 @@ ev('quiz_complete',{nivel:A.nivel,sit:A.sit,sen:A.sen,cl:A.cl,pe:A.pe,obj:A.obj,
 app.innerHTML=`<div class="bar"><i style="width:100%"></i></div><div class="step">Resultado</div><h1>Seus 3 pops</h1><p class="lead">${intro}</p>
 ${r.map((x,k)=>`<div class="card"><div class="n">Pop ${k+1}</div><h3>${x.p.n}</h3><div class="m">${x.p.b} · 5 ml · ${fmt(x.p.pr)}</div><p>${x.why.length?"Combina com o que você respondeu: "+x.why.join(", ")+".":"Para variar o que você já escolheu."} ${x.p.d}</p><a class="cta" target="_top" href="${SITE}${x.p.u}" data-n="${x.p.n}">Ver na loja</a></div>`).join("")}
 <p class="lead" style="margin-top:20px">${fim}</p>
-<button class="back" id="re">Refazer o quiz</button>
+<button class="back" id="re">Refazer o quiz</button> · <a class="back" style="color:inherit" target="_top" href="${SITE}/produtos/">Ver todos os decants</a>
 <div class="note">SENSAÇÃO E DURAÇÃO VARIAM DE PELE PARA PELE. CADA DECANT TEM 5 ML.<br>Um pop de cada vez.</div>`;
 app.querySelectorAll("a.cta").forEach(a=>a.onclick=()=>ev('quiz_click_produto',{produto:a.dataset.n}));
 document.getElementById("re").onclick=start;
