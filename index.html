@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -79,14 +79,17 @@ const P=[
 {n:"MYSLF EDP",b:"Yves Saint Laurent",f:"verde",img:"myslf",u:"/produtos/myslf-edp-yves-saint-laurent/",pr:97.9,d:"Flor de laranjeira, bergamota e fundo limpo de ambroxan.",sit:["dia","noite"],sen:["arlivre","fresco"],cl:["todo"],pe:["perto"]},
 {n:"Sunrise Pour Homme",b:"Moncler",f:"madeira",img:"sunrise",u:"/produtos/sunrise-pour-homme-moncler/",pr:152.9,d:"Pimenta-rosa, suede macio e patchouli terroso.",sit:["notado","noite"],sen:["misterioso","arlivre"],cl:["frio","todo"],pe:["ambiente"]}
 ];
+// Unissex: valem para quem procura feminino até entrarem femininos no catálogo
+const UNI=["Belgravia","Amber Oud Aqua Dubai","Vulcan Feu","Spectre Ghost","Cedrus Blanc","MYSLF EDP"];
+P.forEach(p=>p.g=UNI.includes(p.n)?"u":"m");
 const SCREEN=[{c:"#6A3DE8",t:"#fff"},{c:"#FFD21F",t:"#15181C"},{c:"#1F5FFF",t:"#fff"},{c:"#FF8A1F",t:"#15181C"},{c:"#12A150",t:"#fff"},{c:"#FF5FA2",t:"#15181C"}];
 const Q=[
+{k:"gen",w:"para quem?",t:"Você procura perfumes masculinos, femininos ou unissex?",o:[["Masculinos","m"],["Femininos","f"],["Unissex","u"],["Tanto faz","t"]]},
 {k:"nivel",w:"conhece?",t:"Quanto você conhece de perfume?",o:[["Estou começando","iniciante"],["Sei o que gosto, mas não sei os nomes","gosto"],["Já tenho alguns perfumes","tenho"],["Conheço notas e famílias","expert"]]},
 {k:"sit",w:"quando?",t:"Para quando você quer esse perfume?",o:[["Dia a dia e trabalho","dia"],["Encontro e noite","noite"],["Calor, academia, leveza","calor"],["Ocasião em que quero ser notado","notado"]]},
 {k:"sen",w:"sensação",t:"Que sensação você quer passar?",o:[["Limpo e fresco","fresco"],["Energia, vivo","energia"],["Aconchego, doce","doce"],["Misterioso, profundo","misterioso"],["Ar livre, ervas e madeira","arlivre"]]},
 {k:"cl",w:"clima",t:"Quando você mais vai usar?",o:[["No calor","calor"],["No frio","frio"],["O ano todo","todo"]]},
-{k:"pe",w:"presença",t:"Como você quer que ele se comporte?",o:[["Discreto, perto da pele","discreto"],["Que perceba quem chega perto","perto"],["Que se faça notar no ambiente","ambiente"]]},
-{k:"obj",w:"agora",t:"O que você quer agora?",o:[["Descobrir o meu primeiro","primeiro"],["Achar um parecido com um que já uso","parecido"],["Presentear alguém","presente"],["Ampliar minha coleção","colecao"]]}
+{k:"pe",w:"presença",t:"Como você quer que ele se comporte?",o:[["Discreto, perto da pele","discreto"],["Que perceba quem chega perto","perto"],["Que se faça notar no ambiente","ambiente"]]}
 ];
 const R={sit:{dia:"para o dia a dia",noite:"para a noite",calor:"para o calor e a leveza",notado:"para ser notado"},
 sen:{fresco:"uma sensação limpa e fresca",energia:"energia",doce:"aconchego e doce",misterioso:"um ar misterioso",arlivre:"cara de ar livre"},
@@ -112,17 +115,19 @@ if(p.cl.includes(A.cl)){s+=2;why.push(R.cl[A.cl])}else if(p.cl.includes("todo"))
 if(p.pe.includes(A.pe)){s+=2;why.push(R.pe[A.pe])}
 return{p,s,why}}
 function result(){
-let r=P.map(score);
+const pool=P.filter(p=>A.gen==="t"||(A.gen==="m"?true:p.g==="u"));
+let r=pool.map(score);
 r.sort((a,b)=>b.s-a.s||(A.nivel==="iniciante"?a.p.pr-b.p.pr:0));
 r=r.slice(0,3);
 const intro={iniciante:"Para quem está começando, escolhemos os que são fáceis de gostar. Família olfativa é o “jeito” do cheiro (cítrico, doce, amadeirado…), e o decant deixa você testar sem se prender a um frasco inteiro.",
 gosto:"Você sabe o que gosta, só falta o nome. Estes três combinam com o que você respondeu.",
 tenho:"Para quem já tem perfumes, estes três podem somar à sua coleção sem repetir o que você já conhece.",
 expert:"Você conhece notas e famílias, então olhe as notas de cada um e compare com o seu repertório."}[A.nivel];
-const fim={primeiro:"Comece por um só e teste em casa antes de pensar em mais.",parecido:"Se você já tem um favorito, chame a gente e conte qual é: ajudamos a achar um parecido.",presente:"Para presente, o decant de 5 ml é um jeito leve de acertar sem apostar em um frasco inteiro.",colecao:"A partir de 6 decants o desconto é de 5%, e de 12, 10%."}[A.obj];
-ev('quiz_complete',{nivel:A.nivel,sit:A.sit,sen:A.sen,cl:A.cl,pe:A.pe,obj:A.obj,top1:r[0].p.n});
+const fem=A.gen==="f"?"<br><br>Os femininos estão chegando. Por enquanto, estes três são unissex e funcionam bem em qualquer pele.":"";
+const fim="Comece por um e teste na pele. Se quiser montar um kit, a partir de 6 decants o desconto é de 5%, e de 12, 10%.";
+ev('quiz_complete',{gen:A.gen,nivel:A.nivel,sit:A.sit,sen:A.sen,cl:A.cl,pe:A.pe,top1:r[0].p.n});
 paint("#F4F5F1","#15181C");
-app.innerHTML=`<div style="color:#6A3DE8">${PIP}</div><div class="fade"><div class="step"><span>Resultado</span><span class="dots">${Q.map(()=>'<i class="on"></i>').join("")}</span></div><h1 class="word" style="font-size:clamp(54px,12vw,120px)">seus 3 pops</h1><p class="lead">${intro}</p></div>
+app.innerHTML=`<div style="color:#6A3DE8">${PIP}</div><div class="fade"><div class="step"><span>Resultado</span><span class="dots">${Q.map(()=>'<i class="on"></i>').join("")}</span></div><h1 class="word" style="font-size:clamp(54px,12vw,120px)">seus 3 pops</h1><p class="lead">${intro}${fem}</p></div>
 <div class="cards">${r.map((x,k)=>{const f=FAM[x.p.f];return `<div class="card ${f.t}" style="background:${f.c}"><div><div class="tag">Pop ${k+1} · ${f.n}</div><h3>${x.p.n}</h3><div class="m">${x.p.b} · 5 ml · ${fmt(x.p.pr)}</div><p>${x.why.length?"Combina com o que você respondeu: "+x.why.join(", ")+".":"Para variar o que você já escolheu."} ${x.p.d}</p><a class="cta" target="_top" href="${SITE}${x.p.u}" data-n="${x.p.n}">Ver na loja</a></div><div class="ph"><img src="p-${x.p.img}.jpg" alt="Decant ${x.p.n}" loading="lazy"></div></div>`}).join("")}</div>
 <p class="lead" style="margin-top:28px">${fim}</p>
 <button class="ghost" id="re" style="margin-top:0">Refazer o quiz</button> &nbsp;·&nbsp; <a class="ghost" target="_top" href="${SITE}/produtos/" style="margin-top:0">Ver todos os decants</a>
@@ -133,4 +138,3 @@ start();
 </script>
 </body>
 </html>
-
